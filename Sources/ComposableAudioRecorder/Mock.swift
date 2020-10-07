@@ -3,6 +3,13 @@
 
 import Foundation
 
+#if DEBUG
+    extension AudioRecorderManager {
+        public static func mock() -> Self { Self() }
+    }
+
+#endif
+
 public func _unimplemented(
     _ function: StaticString, file: StaticString = #file, line: UInt = #line
 ) -> Never {

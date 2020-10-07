@@ -17,6 +17,7 @@ let package = Package(
         .library(name: "ComposableBluetoothCentralManager", targets: ["ComposableBluetoothCentralManager"]),
         .library(name: "ComposableBluetoothPeripheralManager", targets: ["ComposableBluetoothPeripheralManager"]),
         .library(name: "ComposableFast", targets: ["ComposableFast"]),
+        .library(name: "ComposablePlayer", targets: ["ComposablePlayer"]),
         .library(name: "ComposableSpeechRecognizer", targets: ["ComposableSpeechRecognizer"]),
         .library(name: "ComposableSpeechSynthesizer", targets: ["ComposableSpeechSynthesizer"]),
     ],
@@ -55,6 +56,12 @@ let package = Package(
             ]
         ),
         .target(
+            name: "ComposablePlayer",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ]
+        ),
+        .target(
             name: "ComposableSpeechRecognizer",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
@@ -85,6 +92,10 @@ let package = Package(
         .testTarget(
             name: "ComposableFastTests",
             dependencies: ["ComposableFast"]
+        ),
+        .testTarget(
+            name: "ComposablePlayerTests",
+            dependencies: ["ComposablePlayer"]
         ),
         .testTarget(
             name: "ComposableSpeechRecognizerTests",

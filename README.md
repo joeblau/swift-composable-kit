@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/joeblau/swift-composable-kit/workflows/CI/badge.svg)](https://github.com/joeblau/swift-composable-kit/actions?query=workflow%3ACI)
 
-Composable implementation of existing Apple frameworks. To understand how the composable architecture works, I higly recommend watching the four part series on [Point Free](https://www.pointfree.co/collections/composable-architecture/a-tour-of-the-composable-architecture/ep100-a-tour-of-the-composable-architecture-part-1)
+Composable implementation of Apple frameworks. To understand how the composable architecture works, I higly recommend watching the four part series on [Point Free](https://www.pointfree.co/collections/composable-architecture/a-tour-of-the-composable-architecture/ep100-a-tour-of-the-composable-architecture-part-1)
 
 
 ## Install
@@ -20,5 +20,6 @@ Add this line to your `Package.swift`
 - **ComposableBluetoothCentralManager** - CBCentralManager
 - **ComposableBluetoothPeripheralManager** - CBPeripheralManager
 - **[ComposableFast](./Sources/ComposableFast)** - https://fast.com
+- **ComposablePlayer** - AVPlayer
 - **ComposableSpeechRecognizer** - SFSpeechRecognizer
 - **ComposableSpeechSynthesizer** - AVSpeechSynthesizer

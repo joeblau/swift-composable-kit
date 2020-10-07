@@ -4,9 +4,10 @@
 import Foundation
 
 #if DEBUG
-    extension AudioPlayerManager {
+    extension AudioPlayer {
         public static func mock() -> Self { Self() }
     }
+
 #endif
 
 public func _unimplemented(
