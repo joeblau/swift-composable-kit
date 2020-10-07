@@ -2,7 +2,8 @@
 
 [![CI](https://github.com/joeblau/swift-composable-kit/workflows/CI/badge.svg)](https://github.com/joeblau/swift-composable-kit/actions?query=workflow%3ACI)
 
-Composable implementation of existing Apple frameworks
+Composable implementation of existing Apple frameworks. To understand how the composable architecture works, I higly recommend watching the four part series on [Point Free](https://www.pointfree.co/collections/composable-architecture/a-tour-of-the-composable-architecture/ep100-a-tour-of-the-composable-architecture-part-1)
+
 
 ## Install
 
@@ -14,10 +15,10 @@ Add this line to your `Package.swift`
 
 ## Libraries
 
-- `ComposableAudioPlayer` - [AVAudioPlayer](https://developer.apple.com/documentation/avfoundation/avaudioplayer)
-- `ComposableAudioRecorder` - [AVAudioRecorder](https://developer.apple.com/documentation/avfoundation/avaudiorecorder)
-- `ComposableBluetoothCentralManager` - [CBCentralManager](https://developer.apple.com/documentation/corebluetooth/cbcentralmanager)
-- `ComposableBluetoothPeripheralManager` - [CBPeripheralManager](https://developer.apple.com/documentation/corebluetooth/cbperipheralmanager)
-- `ComposableFast` - https://fast.com
-- `ComposableSpeechRecognizer` - [SFSpeechRecognizer](https://developer.apple.com/documentation/speech/sfspeechrecognizer)
-- `ComposableSpeechSynthesizer` - [AVSpeechSynthesizer](https://developer.apple.com/documentation/avfoundation/avspeechsynthesizer)
+- **ComposableAudioPlayer** - AVAudioPlayer
+- **ComposableAudioRecorder** - AVAudioRecorder
+- **ComposableBluetoothCentralManager** - CBCentralManager
+- **ComposableBluetoothPeripheralManager** - CBPeripheralManager
+- **[ComposableFast](./Sources/ComposableFast)** - https://fast.com
+- **ComposableSpeechRecognizer** - SFSpeechRecognizer
+- **ComposableSpeechSynthesizer** - AVSpeechSynthesizer
