@@ -17,7 +17,7 @@ Add this line to your `Package.swift`
 - `ComposableAudioPlayer` - [AVAudioPlayer](https://developer.apple.com/documentation/avfoundation/avaudioplayer)
 - `ComposableAudioRecorder` - [AVAudioRecorder](https://developer.apple.com/documentation/avfoundation/avaudiorecorder)
 - `ComposableBluetoothCentralManager` - [CBCentralManager](https://developer.apple.com/documentation/corebluetooth/cbcentralmanager)
-- `ComposableBluetoothPeripheralManager` - [CBCentralManager](https://developer.apple.com/documentation/corebluetooth/cbperipheralmanager)
+- `ComposableBluetoothPeripheralManager` - [CBPeripheralManager](https://developer.apple.com/documentation/corebluetooth/cbperipheralmanager)
 - `ComposableFast` - https://fast.com
 - `ComposableSpeechRecognizer` - [SFSpeechRecognizer](https://developer.apple.com/documentation/speech/sfspeechrecognizer)
 - `ComposableSpeechSynthesizer` - [AVSpeechSynthesizer](https://developer.apple.com/documentation/avfoundation/avspeechsynthesizer)
