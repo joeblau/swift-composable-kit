@@ -3,6 +3,10 @@
   import ComposableArchitecture
 
   extension LocationManager {
+    public static func mock() -> Self {
+        Self()
+    }
+    
     /// The mock implementation of the `LocationManager` interface. By default this implementation
     /// stubs all of its endpoints as functions that immediately `fatalError`. So, to construct a
     /// mock you will invoke the `.unimplemented` static method, and provide implementations for all

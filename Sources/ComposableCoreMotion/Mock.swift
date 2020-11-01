@@ -7,6 +7,10 @@
   @available(tvOS, unavailable)
   @available(watchOS 2.0, *)
   extension MotionManager {
+    public static func mock() -> Self {
+        Self()
+    }
+    
     public static func unimplemented(
       accelerometerData: @escaping (AnyHashable) -> AccelerometerData? = { _ in
         _unimplemented("accelerometerData")
