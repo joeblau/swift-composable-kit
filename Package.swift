@@ -16,13 +16,15 @@ let package = Package(
         .library(name: "ComposableAudioRecorder", targets: ["ComposableAudioRecorder"]),
         .library(name: "ComposableBluetoothCentralManager", targets: ["ComposableBluetoothCentralManager"]),
         .library(name: "ComposableBluetoothPeripheralManager", targets: ["ComposableBluetoothPeripheralManager"]),
+        .library(name: "ComposableCoreLocation", targets: ["ComposableCoreLocation"]),
+        .library(name: "ComposableCoreMotion", targets: ["ComposableCoreMotion"]),
         .library(name: "ComposableFast", targets: ["ComposableFast"]),
         .library(name: "ComposablePlayer", targets: ["ComposablePlayer"]),
         .library(name: "ComposableSpeechRecognizer", targets: ["ComposableSpeechRecognizer"]),
         .library(name: "ComposableSpeechSynthesizer", targets: ["ComposableSpeechSynthesizer"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "0.8.0"),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "0.9.0"),
     ],
     targets: [
         .target(
@@ -47,6 +49,18 @@ let package = Package(
             name: "ComposableBluetoothPeripheralManager",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ]
+        ),
+        .target(
+            name: "ComposableCoreLocation",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
+        ),
+        .target(
+            name: "ComposableCoreMotion",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
         .target(
@@ -88,6 +102,14 @@ let package = Package(
         .testTarget(
             name: "ComposableBluetoothPeripheralManagerTests",
             dependencies: ["ComposableBluetoothPeripheralManager"]
+        ),
+        .testTarget(
+            name: "ComposableCoreLocationTests",
+            dependencies: ["ComposableCoreLocation"]
+        ),
+        .testTarget(
+            name: "ComposableCoreMotionTests",
+            dependencies: ["ComposableCoreMotion"]
         ),
         .testTarget(
             name: "ComposableFastTests",
