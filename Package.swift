@@ -87,45 +87,15 @@ let package = Package(
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),
-        .testTarget(
-            name: "ComposableAudioPlayerTests",
-            dependencies: ["ComposableAudioPlayer"]
-        ),
-        .testTarget(
-            name: "ComposableAudioRecorderTests",
-            dependencies: ["ComposableAudioRecorder"]
-        ),
-        .testTarget(
-            name: "ComposableBluetoothCentralManagerTests",
-            dependencies: ["ComposableBluetoothCentralManager"]
-        ),
-        .testTarget(
-            name: "ComposableBluetoothPeripheralManagerTests",
-            dependencies: ["ComposableBluetoothPeripheralManager"]
-        ),
-        .testTarget(
-            name: "ComposableCoreLocationTests",
-            dependencies: ["ComposableCoreLocation"]
-        ),
-        .testTarget(
-            name: "ComposableCoreMotionTests",
-            dependencies: ["ComposableCoreMotion"]
-        ),
-        .testTarget(
-            name: "ComposableFastTests",
-            dependencies: ["ComposableFast"]
-        ),
-        .testTarget(
-            name: "ComposablePlayerTests",
-            dependencies: ["ComposablePlayer"]
-        ),
-        .testTarget(
-            name: "ComposableSpeechRecognizerTests",
-            dependencies: ["ComposableSpeechRecognizer"]
-        ),
-        .testTarget(
-            name: "ComposableSpeechSynthesizerTests",
-            dependencies: ["ComposableSpeechSynthesizer"]
-        ),
+        .testTarget(name: "ComposableAudioPlayerTests", dependencies: ["ComposableAudioPlayer"]),
+        .testTarget(name: "ComposableAudioRecorderTests", dependencies: ["ComposableAudioRecorder"]),
+        .testTarget(name: "ComposableBluetoothCentralManagerTests", dependencies: ["ComposableBluetoothCentralManager"]),
+        .testTarget(name: "ComposableBluetoothPeripheralManagerTests", dependencies: ["ComposableBluetoothPeripheralManager"]),
+        .testTarget(name: "ComposableCoreLocationTests", dependencies: ["ComposableCoreLocation"]),
+        .testTarget(name: "ComposableCoreMotionTests", dependencies: ["ComposableCoreMotion"]),
+        .testTarget(name: "ComposableFastTests", dependencies: ["ComposableFast"]),
+        .testTarget(name: "ComposablePlayerTests", dependencies: ["ComposablePlayer"]),
+        .testTarget(name: "ComposableSpeechRecognizerTests", dependencies: ["ComposableSpeechRecognizer"]),
+        .testTarget(name: "ComposableSpeechSynthesizerTests", dependencies: ["ComposableSpeechSynthesizer"]),
     ]
 )
