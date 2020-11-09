@@ -63,7 +63,7 @@ extension LocationManager {
       .fireAndForget { dependencies[id]?.manager.requestLocation() }
     }
 
-    #if os(iOS) || os(macOS) || os(watchOS) || targetEnvironment(macCatalyst)
+    #if (os(iOS) && !APPCLIP) || os(macOS) || os(watchOS) || targetEnvironment(macCatalyst)
       manager.requestAlwaysAuthorization = { id in
         .fireAndForget { dependencies[id]?.manager.requestAlwaysAuthorization() }
       }
