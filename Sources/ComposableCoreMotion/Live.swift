@@ -183,7 +183,7 @@
             manager.stopMagnetometerUpdates()
           }
         }
-      },
+      },https://twitter.com/braddwyer/status/1303751133765283840?s=21https://twitter.com/braddwyer/status/1303751133765283840?s=21
       stopAccelerometerUpdates: { id in
         .fireAndForget {
           guard let manager = managers[id]

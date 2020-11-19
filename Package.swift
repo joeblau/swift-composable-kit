@@ -12,6 +12,7 @@ let package = Package(
         .watchOS(.v6),
     ],
     products: [
+        .library(name: "ComposableAltimeter", targets: ["ComposableAltimeter"]),
         .library(name: "ComposableAudioPlayer", targets: ["ComposableAudioPlayer"]),
         .library(name: "ComposableAudioRecorder", targets: ["ComposableAudioRecorder"]),
         .library(name: "ComposableBluetoothCentralManager", targets: ["ComposableBluetoothCentralManager"]),
@@ -19,14 +20,24 @@ let package = Package(
         .library(name: "ComposableCoreLocation", targets: ["ComposableCoreLocation"]),
         .library(name: "ComposableCoreMotion", targets: ["ComposableCoreMotion"]),
         .library(name: "ComposableFast", targets: ["ComposableFast"]),
+        .library(name: "ComposableHealthStore", targets: ["ComposableHealthStore"]),
+        .library(name: "ComposableMediaPlayer", targets: ["ComposableMediaPlayer"]),
         .library(name: "ComposablePlayer", targets: ["ComposablePlayer"]),
         .library(name: "ComposableSpeechRecognizer", targets: ["ComposableSpeechRecognizer"]),
         .library(name: "ComposableSpeechSynthesizer", targets: ["ComposableSpeechSynthesizer"]),
+        .library(name: "ComposableWatchConnectivity", targets: ["ComposableWatchConnectivity"]),
+        .library(name: "ComposableWorkout", targets: ["ComposableWorkout"]),
     ],
     dependencies: [
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "0.9.0"),
     ],
     targets: [
+        .target(
+            name: "ComposableAltimeter",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ]
+        ),
         .target(
             name: "ComposableAudioPlayer",
             dependencies: [
@@ -70,6 +81,18 @@ let package = Package(
             ]
         ),
         .target(
+            name: "ComposableHealthStore",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
+        ),
+        .target(
+            name: "ComposableMediaPlayer",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ]
+        ),
+        .target(
             name: "ComposablePlayer",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
@@ -83,6 +106,18 @@ let package = Package(
         ),
         .target(
             name: "ComposableSpeechSynthesizer",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ]
+        ),
+        .target(
+            name: "ComposableWatchConnectivity",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ]
+        ),
+        .target(
+            name: "ComposableWorkout",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
