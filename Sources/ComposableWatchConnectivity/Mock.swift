@@ -1,6 +1,7 @@
 // ComposableWatchConnectivityMock.swift
 // Copyright (c) 2020 Copilot
 
+#if os(iOS) || os(watchOS)
 import ComposableArchitecture
 
 #if DEBUG
@@ -24,3 +25,4 @@ import ComposableArchitecture
         line: line
     )
  }
+#endif

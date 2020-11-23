@@ -5,6 +5,7 @@
 //  Created by Joe Blau on 11/5/20.
 //
 
+#if os(iOS) || os(watchOS)
 import Foundation
 import WatchConnectivity
 
@@ -18,3 +19,4 @@ extension WCSessionActivationState: CustomStringConvertible {
         }
     }
 }
+#endif
