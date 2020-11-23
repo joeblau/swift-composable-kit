@@ -1,6 +1,7 @@
 // ComposableHealthStoreLive.swift
 // Copyright (c) 2020 Copilot
 
+#if canImport(MediaPlayer) && os(iOS)
 import Combine
 import ComposableArchitecture
 import Foundation
@@ -79,3 +80,4 @@ private class WatchConnectivityDelegate: NSObject {
         subscriber.send(.playbackStateDidChange)
     }
 }
+#endif

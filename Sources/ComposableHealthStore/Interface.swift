@@ -1,6 +1,7 @@
 // ComposableHealthStoreInterface.swift
 // Copyright (c) 2020 Copilot
 
+#if canImport(HealthKit)
 import ComposableArchitecture
 import Foundation
 import HealthKit
@@ -50,3 +51,4 @@ public struct HealthStoreManager {
         startWatchApp(id, configuration)
     }
 }
+#endif

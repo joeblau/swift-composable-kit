@@ -1,6 +1,7 @@
 // ComposableHealthStoreLive.swift
 // Copyright (c) 2020 Copilot
 
+#if canImport(HealthKit)
 import Combine
 import ComposableArchitecture
 import Foundation
@@ -62,3 +63,4 @@ private struct Dependencies {
 }
 
 private var dependencies: [AnyHashable: Dependencies] = [:]
+#endif

@@ -1,6 +1,7 @@
 // ComposableHealthStoreMock.swift
 // Copyright (c) 2020 Copilot
 
+#if canImport(HealthKit)
 import ComposableArchitecture
 
 #if DEBUG
@@ -24,3 +25,4 @@ import ComposableArchitecture
         line: line
     )
  }
+#endif

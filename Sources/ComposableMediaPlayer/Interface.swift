@@ -1,6 +1,7 @@
 // ComposableHealthStoreInterface.swift
 // Copyright (c) 2020 Copilot
 
+#if canImport(MediaPlayer) && os(iOS)
 import ComposableArchitecture
 import Foundation
 import MediaPlayer
@@ -36,3 +37,4 @@ public struct MediaPlayerManager {
         destroy(id)
     }
 }
+#endif

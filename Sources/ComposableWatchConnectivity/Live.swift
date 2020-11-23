@@ -1,7 +1,7 @@
 // ComposableWatchConnectivityLive.swift
 // Copyright (c) 2020 Copilot
 
-#if os(iOS) || os(watchOS)
+#if canImport(WatchConnectivity)
 import Combine
 import ComposableArchitecture
 import Foundation

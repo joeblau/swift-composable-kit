@@ -5,7 +5,7 @@
 //  Created by Joe Blau on 11/5/20.
 //
 
-#if os(iOS) || os(watchOS)
+#if canImport(WatchConnectivity)
 import Foundation
 import WatchConnectivity
 
