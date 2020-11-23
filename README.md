@@ -10,18 +10,23 @@ Composable implementation of Apple frameworks. To understand how the composable 
 Add this line to your `Package.swift`
 
 ```swift
-.package(url: "https://github.com/joeblau/swift-composable-kit", from: "0.3.0"),
+.package(url: "https://github.com/ridevelo/swift-composable-kit", from: "0.3.0"),
 ```
 
 ## Libraries
 
+- **ComposableAltimeter** - CMAltimeter
 - **ComposableAudioPlayer** - AVAudioPlayer
 - **ComposableAudioRecorder** - AVAudioRecorder
 - **ComposableBluetoothCentralManager** - CBCentralManager
 - **ComposableBluetoothPeripheralManager** - CBPeripheralManager
 - **ComposableCoreLocation** - CLLocationManager
 - **ComposableCoreMotion** - CMMotionManager
+- **ComposableHealthStore** - HKHealthStore
+- **ComposableMediaPlayer** - MPMusicPlayerController
 - **[ComposableFast](./Sources/ComposableFast)** - https://fast.com
 - **ComposablePlayer** - AVPlayer
 - **ComposableSpeechRecognizer** - SFSpeechRecognizer
 - **ComposableSpeechSynthesizer** - AVSpeechSynthesizer
+- **ComposableWatchConnectivity** - WCSession
+- **ComposableWorkout** - HKWorkoutSession
