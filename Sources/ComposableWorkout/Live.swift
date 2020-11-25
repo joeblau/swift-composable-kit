@@ -33,8 +33,6 @@ public extension WorkoutManager {
 
                 workoutSession?.delegate = workoutSessionDelegate
                 workoutBuilder?.delegate = liveWorkoutBuilderDelegate
-                
-                workoutSession?.prepare()
                                 
                 dependencies[id] = Dependencies(
                     healthStore: healthStore,
@@ -54,6 +52,7 @@ public extension WorkoutManager {
         manager.startActivity = { id, date in
             .fireAndForget {
                 dependencies[id]?.workoutBuilder?.beginCollection(withStart: date) { (_, _) in }
+                dependencies[id]?.workoutSession?.prepare()
                 dependencies[id]?.workoutSession?.startActivity(with: date)
             }
         }
