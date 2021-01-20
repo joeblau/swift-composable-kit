@@ -1,6 +1,6 @@
 # file options
 
---exclude Snapshots,Carthage
+--exclude Snapshots,Carthage,Sources/ComposableCoreLocation
 
 # format options
 

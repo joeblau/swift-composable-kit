@@ -29,7 +29,7 @@ let package = Package(
         .library(name: "ComposableWorkout", targets: ["ComposableWorkout"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "0.9.0"),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "0.10.0"),
     ],
     targets: [
         .target(

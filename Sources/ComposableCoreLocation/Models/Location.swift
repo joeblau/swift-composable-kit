@@ -69,15 +69,15 @@ extension Location: Hashable {
     }
 
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(altitude)
-        hasher.combine(coordinate.latitude)
-        hasher.combine(coordinate.longitude)
-        hasher.combine(course)
-        hasher.combine(floor)
-        hasher.combine(horizontalAccuracy)
-        hasher.combine(speed)
-        hasher.combine(timestamp)
-        hasher.combine(verticalAccuracy)
+        hasher.combine(self.altitude)
+        hasher.combine(self.coordinate.latitude)
+        hasher.combine(self.coordinate.longitude)
+        hasher.combine(self.course)
+        hasher.combine(self.floor)
+        hasher.combine(self.horizontalAccuracy)
+        hasher.combine(self.speed)
+        hasher.combine(self.timestamp)
+        hasher.combine(self.verticalAccuracy)
 
         #if compiler(>=5.2)
             if #available(iOS 13.4, macCatalyst 13.4, macOS 10.15.4, tvOS 13.4, watchOS 6.2, *) {
