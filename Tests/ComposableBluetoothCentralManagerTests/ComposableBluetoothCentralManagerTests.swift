@@ -1,5 +1,5 @@
 // ComposableBluetoothCentralManagerTests.swift
-// Copyright (c) 2020 Joe Blau
+// Copyright (c) 2021 Joe Blau
 
 import XCTest
 @testable import ComposableBluetoothCentralManager

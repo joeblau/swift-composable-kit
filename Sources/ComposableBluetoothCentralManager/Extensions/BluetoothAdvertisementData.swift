@@ -1,5 +1,5 @@
 // BluetoothAdvertisementData.swift
-// Copyright (c) 2020 Joe Blau
+// Copyright (c) 2021 Joe Blau
 
 import CoreBluetooth
 import Foundation

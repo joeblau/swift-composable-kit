@@ -1,5 +1,5 @@
 // Live.swift
-// Copyright (c) 2020 Joe Blau
+// Copyright (c) 2021 Joe Blau
 
 import Combine
 import ComposableArchitecture
@@ -42,8 +42,8 @@ observer.observe(speedTarget, config);
 observer.observe(uploadTarget, config);
 """
 
-extension FastManager {
-    public static let live: FastManager = { () -> FastManager in
+public extension FastManager {
+    static let live: FastManager = { () -> FastManager in
         var manager = FastManager()
 
         manager.create = { id in

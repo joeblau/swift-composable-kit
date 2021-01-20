@@ -1,11 +1,11 @@
 // Mock.swift
-// Copyright (c) 2020 Joe Blau
+// Copyright (c) 2021 Joe Blau
 
 #if DEBUG
     import Foundation
 
-    extension FastManager {
-        public static func mock() -> Self { Self() }
+    public extension FastManager {
+        static func mock() -> Self { Self() }
     }
 
 #endif

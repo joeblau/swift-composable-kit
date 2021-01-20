@@ -1,43 +1,44 @@
+// Interface.swift
+// Copyright (c) 2021 Joe Blau
+
 // ComposableWorkoutInterface.swift
 // Copyright (c) 2020 Copilot
-#if canImport(CoreMotion)  && (os(iOS) || os(watchOS))
-import ComposableArchitecture
-import Foundation
-import CoreMotion
+#if canImport(CoreMotion) && (os(iOS) || os(watchOS))
+    import ComposableArchitecture
+    import CoreMotion
+    import Foundation
 
-public struct AltimeterManager {
+    public struct AltimeterManager {
+        // MARK: - Variables
 
-    // MARK: - Variables
+        var create: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("create") }
 
-    var create: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("create") }
+        var destroy: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("destroy") }
 
-    var destroy: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("destroy") }
-    
-    public var authorizationStatus: () -> CMAuthorizationStatus = { _unimplemented("authorizationStatus") }
-    public var isRelativeAltitudeAvailable: () -> Bool = { _unimplemented("isRelativeAltitudeAvailable") }
-    
-    var startRelativeAltitudeUpdates: (AnyHashable, OperationQueue) -> Effect<RelativeAltitudeData, Error>  = { _, _ in _unimplemented("startRelativeAltitudeUpdates") }
-    var stopRelativeAltitudeUpdates: (AnyHashable) -> Effect<Never, Never>  = { _ in _unimplemented("stopRelativeAltitudeUpdates") }
+        public var authorizationStatus: () -> CMAuthorizationStatus = { _unimplemented("authorizationStatus") }
+        public var isRelativeAltitudeAvailable: () -> Bool = { _unimplemented("isRelativeAltitudeAvailable") }
 
+        var startRelativeAltitudeUpdates: (AnyHashable, OperationQueue) -> Effect<RelativeAltitudeData, Error> = { _, _ in _unimplemented("startRelativeAltitudeUpdates") }
+        var stopRelativeAltitudeUpdates: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("stopRelativeAltitudeUpdates") }
 
-    // MARK: - Functions
+        // MARK: - Functions
 
-    public func create(id: AnyHashable) -> Effect<Never, Never> {
-        create(id)
-    }
+        public func create(id: AnyHashable) -> Effect<Never, Never> {
+            create(id)
+        }
 
-    public func destroy(id: AnyHashable) -> Effect<Never, Never> {
-        destroy(id)
-    }
-    
-    public func startRelativeAltitudeUpdates(id: AnyHashable, to queue: OperationQueue = .main) -> Effect<RelativeAltitudeData, Error> {
-        self.startRelativeAltitudeUpdates(id, queue)
-    }
-    
-    public func stopRelativeAltitudeUpdates(id: AnyHashable) -> Effect<Never, Never> {
-      self.stopRelativeAltitudeUpdates(id)
-    }
-    
+        public func destroy(id: AnyHashable) -> Effect<Never, Never> {
+            destroy(id)
+        }
+
+        public func startRelativeAltitudeUpdates(id: AnyHashable, to queue: OperationQueue = .main) -> Effect<RelativeAltitudeData, Error> {
+            startRelativeAltitudeUpdates(id, queue)
+        }
+
+        public func stopRelativeAltitudeUpdates(id: AnyHashable) -> Effect<Never, Never> {
+            stopRelativeAltitudeUpdates(id)
+        }
+
 //    public init(
 //        create: @escaping (AnyHashable) -> Effect<Never, Never>,
 //        destroy: @escaping (AnyHashable) -> Effect<Never, Never>,
@@ -53,5 +54,5 @@ public struct AltimeterManager {
 //        self.startRelativeAltitudeUpdates = startRelativeAltitudeUpdates
 //        self.stopRelativeAltitudeUpdates = stopRelativeAltitudeUpdates
 //    }
-}
+    }
 #endif

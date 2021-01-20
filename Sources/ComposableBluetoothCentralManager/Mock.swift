@@ -1,12 +1,12 @@
 // Mock.swift
-// Copyright (c) 2020 Joe Blau
+// Copyright (c) 2021 Joe Blau
 
 import ComposableArchitecture
 import CoreBluetooth
 
 #if DEBUG
-    extension CentralManager {
-        public static func mock() -> Self {
+    public extension CentralManager {
+        static func mock() -> Self {
             Self()
         }
     }

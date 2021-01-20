@@ -1,5 +1,5 @@
 // Interface.swift
-// Copyright (c) 2020 Joe Blau
+// Copyright (c) 2021 Joe Blau
 
 import Combine
 import ComposableArchitecture
@@ -121,8 +121,8 @@ public struct CentralManager {
 
 // MARK: - Properties
 
-extension CentralManager {
-    public struct Properties: Equatable {
+public extension CentralManager {
+    struct Properties: Equatable {
         public init() {}
     }
 }

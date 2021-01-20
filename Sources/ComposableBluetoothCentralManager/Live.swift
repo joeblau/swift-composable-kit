@@ -1,12 +1,12 @@
 // Live.swift
-// Copyright (c) 2020 Joe Blau
+// Copyright (c) 2021 Joe Blau
 
 import Combine
 import ComposableArchitecture
 import CoreBluetooth
 
-extension CentralManager {
-    public static let live: CentralManager = { () -> CentralManager in
+public extension CentralManager {
+    static let live: CentralManager = { () -> CentralManager in
         var manager = CentralManager()
 
         manager.create = { id, queue, options in

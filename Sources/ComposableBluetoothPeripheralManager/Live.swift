@@ -1,12 +1,12 @@
 // Live.swift
-// Copyright (c) 2020 Joe Blau
+// Copyright (c) 2021 Joe Blau
 
 import Combine
 import ComposableArchitecture
 import CoreBluetooth
 
-extension PeripheralManager {
-    public static let live: PeripheralManager = { () -> PeripheralManager in
+public extension PeripheralManager {
+    static let live: PeripheralManager = { () -> PeripheralManager in
         var peripheral = PeripheralManager()
 
         peripheral.create = { id in

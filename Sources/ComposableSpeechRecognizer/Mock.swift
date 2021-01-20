@@ -1,11 +1,11 @@
 // Mock.swift
-// Copyright (c) 2020 Joe Blau
+// Copyright (c) 2021 Joe Blau
 
 import Foundation
 
 #if DEBUG
-    extension SpeechRecognizerManager {
-        public static func mock() -> Self { Self() }
+    public extension SpeechRecognizerManager {
+        static func mock() -> Self { Self() }
     }
 
 #endif

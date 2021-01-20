@@ -1,13 +1,13 @@
 // Live.swift
-// Copyright (c) 2020 Joe Blau
+// Copyright (c) 2021 Joe Blau
 
 import AVFoundation
 import Combine
 import ComposableArchitecture
 import Foundation
 
-extension AudioPlayer {
-    public static let live: AudioPlayer = { () -> AudioPlayer in
+public extension AudioPlayer {
+    static let live: AudioPlayer = { () -> AudioPlayer in
 
         var manager = AudioPlayer()
 

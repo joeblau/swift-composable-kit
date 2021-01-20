@@ -1,5 +1,5 @@
 // Live.swift
-// Copyright (c) 2020 Joe Blau
+// Copyright (c) 2021 Joe Blau
 
 import AVFoundation
 import Combine
@@ -7,8 +7,8 @@ import ComposableArchitecture
 import Foundation
 import os.log
 
-extension SpeechSynthesizerManager {
-    public static let live: SpeechSynthesizerManager = { () -> SpeechSynthesizerManager in
+public extension SpeechSynthesizerManager {
+    static let live: SpeechSynthesizerManager = { () -> SpeechSynthesizerManager in
         var manager = SpeechSynthesizerManager()
 
         manager.create = { id in

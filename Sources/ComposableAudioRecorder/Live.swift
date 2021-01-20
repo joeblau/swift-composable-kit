@@ -1,12 +1,12 @@
 // Live.swift
-// Copyright (c) 2020 Joe Blau
+// Copyright (c) 2021 Joe Blau
 
 import AVFoundation
 import Combine
 import ComposableArchitecture
 
-extension AudioRecorderManager {
-    public static let live: AudioRecorderManager = { () -> AudioRecorderManager in
+public extension AudioRecorderManager {
+    static let live: AudioRecorderManager = { () -> AudioRecorderManager in
 
         var manager = AudioRecorderManager()
 

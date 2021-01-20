@@ -1,11 +1,11 @@
 // Mock.swift
-// Copyright (c) 2020 Joe Blau
+// Copyright (c) 2021 Joe Blau
 
 import Foundation
 
 #if DEBUG
-    extension AudioRecorderManager {
-        public static func mock() -> Self { Self() }
+    public extension AudioRecorderManager {
+        static func mock() -> Self { Self() }
     }
 
 #endif

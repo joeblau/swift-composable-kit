@@ -1,12 +1,12 @@
 // Mock.swift
-// Copyright (c) 2020 Joe Blau
+// Copyright (c) 2021 Joe Blau
 
 import ComposableArchitecture
 import CoreBluetooth
 
 #if DEBUG
-    extension PeripheralManager {
-        public static func mock() -> Self {
+    public extension PeripheralManager {
+        static func mock() -> Self {
             Self()
         }
     }

@@ -1,5 +1,5 @@
 // Live.swift
-// Copyright (c) 2020 Joe Blau
+// Copyright (c) 2021 Joe Blau
 
 import Combine
 import ComposableArchitecture
@@ -7,8 +7,8 @@ import Foundation
 import os.log
 import Speech
 
-extension SpeechRecognizerManager {
-    public static let live: SpeechRecognizerManager = { () -> SpeechRecognizerManager in
+public extension SpeechRecognizerManager {
+    static let live: SpeechRecognizerManager = { () -> SpeechRecognizerManager in
         var manager = SpeechRecognizerManager()
 
         manager.create = { id in
@@ -73,7 +73,7 @@ extension SpeechRecognizerManager {
                             dependencies[id]?.subscriber.send(.speechRecognitionResult(result))
 
                             guard let isFinal = result?.isFinal,
-                                error == nil, isFinal else { return }
+                                  error == nil, isFinal else { return }
 
                             // Stop recognizing speech if there is a problem.
                             dependencies[id]?.audioEngine.stop()
