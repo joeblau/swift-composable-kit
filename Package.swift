@@ -21,6 +21,7 @@ let package = Package(
         .library(name: "ComposableCoreMotion", targets: ["ComposableCoreMotion"]),
         .library(name: "ComposableFast", targets: ["ComposableFast"]),
         .library(name: "ComposableHealthStore", targets: ["ComposableHealthStore"]),
+        .library(name: "ComposableLocalSearch", targets: ["ComposableLocalSearch"]),
         .library(name: "ComposableMediaPlayer", targets: ["ComposableMediaPlayer"]),
         .library(name: "ComposablePlayer", targets: ["ComposablePlayer"]),
         .library(name: "ComposableSpeechRecognizer", targets: ["ComposableSpeechRecognizer"]),
@@ -82,6 +83,12 @@ let package = Package(
         ),
         .target(
             name: "ComposableHealthStore",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ]
+        ),
+        .target(
+            name: "ComposableLocalSearch",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
