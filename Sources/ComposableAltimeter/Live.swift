@@ -9,34 +9,28 @@
 
     extension AltimeterManager {
         public static let live = AltimeterManager(
-            create: { id in
+            createImplementation: {
                 .fireAndForget {
-                    if managers[id] != nil {
+                    if manager != nil {
                         return
                     }
-                    managers[id] = CMAltimeter()
+                    manager = CMAltimeter()
                 }
             },
-            destroy: { id in
-                .fireAndForget { managers[id] = nil }
+            destroyImplementation: {
+                .fireAndForget { manager = nil }
             },
-            authorizationStatus: {
-                CMAltimeter.authorizationStatus()
-            },
-            isRelativeAltitudeAvailable: {
-                CMAltimeter.isRelativeAltitudeAvailable()
-            },
-            startRelativeAltitudeUpdates: { id, queue in
+            startRelativeAltitudeUpdatesImplementation: { queue in
                 Effect.run { subscriber in
-                    guard let manager = requireAltimeterManager(id: id) else {
+                    guard let manager = requireAltimeterManager else {
                         return AnyCancellable {}
                     }
-
-                    guard deviceRelativeAltitudeUpdatesSubscribers[id] == nil else {
+                    
+                    guard deviceRelativeAltitudeUpdatesSubscriber == nil else {
                         return AnyCancellable {}
                     }
-
-                    deviceRelativeAltitudeUpdatesSubscribers[id] = subscriber
+                    
+                    deviceRelativeAltitudeUpdatesSubscriber = subscriber
                     manager.startRelativeAltitudeUpdates(to: queue) { data, error in
                         if let data = data {
                             subscriber.send(.init(data))
@@ -44,42 +38,46 @@
                             subscriber.send(completion: .failure(error))
                         }
                     }
-
+                    
                     return AnyCancellable {
                         manager.stopRelativeAltitudeUpdates()
                     }
                 }
-            },
-            stopRelativeAltitudeUpdates: { id -> Effect<Never, Never> in
+            }, stopRelativeAltitudeUpdatesImplementation: {
                 .fireAndForget {
-                    guard let manager = managers[id]
+                    guard let manager = manager
                     else {
-                        couldNotFindAltimeterManager(id: id)
+                        couldNotFindAltimeterManager()
                         return
                     }
                     manager.stopRelativeAltitudeUpdates()
-                    deviceRelativeAltitudeUpdatesSubscribers[id]?.send(completion: .finished)
-                    deviceRelativeAltitudeUpdatesSubscribers[id] = nil
+                    deviceRelativeAltitudeUpdatesSubscriber?.send(completion: .finished)
+                    deviceRelativeAltitudeUpdatesSubscriber = nil
                 }
+            }, authorizationStatus: {
+                CMAltimeter.authorizationStatus()
+            },
+            isRelativeAltitudeAvailable: {
+                CMAltimeter.isRelativeAltitudeAvailable()
             }
         )
 
-        private static var managers: [AnyHashable: CMAltimeter] = [:]
+        private static var manager: CMAltimeter?
 
-        private static func requireAltimeterManager(id: AnyHashable) -> CMAltimeter? {
-            if managers[id] == nil {
-                couldNotFindAltimeterManager(id: id)
+        private static var requireAltimeterManager: CMAltimeter? {
+            if manager == nil {
+                couldNotFindAltimeterManager()
             }
-            return managers[id]
+            return manager
         }
     }
 
-    private var deviceRelativeAltitudeUpdatesSubscribers: [AnyHashable: Effect<RelativeAltitudeData, Error>.Subscriber] = [:]
+    private var deviceRelativeAltitudeUpdatesSubscriber: Effect<RelativeAltitudeData, Error>.Subscriber?
 
-    private func couldNotFindAltimeterManager(id: Any) {
+    private func couldNotFindAltimeterManager() {
         assertionFailure(
             """
-            A altimeter manager could not be found with the id \(id). This is considered a programmer error. \
+            A altimeter manager could not be found. This is considered a programmer error. \
             You should not invoke methods on a altimeter manager before it has been created or after it \
             has been destroyed. Refactor your code to make sure there is a altimeter manager created by the \
             time you invoke this endpoint.

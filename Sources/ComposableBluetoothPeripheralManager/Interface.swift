@@ -39,11 +39,13 @@ public struct PeripheralManager {
         case didOpen(_ peripheral: CBPeripheral, channel: CBL2CAPChannel?, error: Error?)
     }
 
-    var create: (AnyHashable) -> Effect<Action, Never> = { _ in _unimplemented("create") }
+    var createImplementation: () -> Effect<Action, Never> = { _unimplemented("create") }
 
-    var destroy: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("destroy") }
+    var destroyImplementation: () -> Effect<Never, Never> = { _unimplemented("destroy") }
 
-    var addPeripheral: (AnyHashable, CBPeripheral, [CBUUID]?) -> Effect<Never, Never> = { _, _, _ in _unimplemented("addPeripheral") }
+    var addPeripheralImplementation: (CBPeripheral, [CBUUID]?) -> Effect<Never, Never> = { _, _ in
+        _unimplemented("addPeripheral")
+    }
 
     public struct Error: Swift.Error, Equatable {
         public let error: NSError?
@@ -55,15 +57,15 @@ public struct PeripheralManager {
 
     // MARK: - Concrete
 
-    public func create(id: AnyHashable) -> Effect<Action, Never> {
-        create(id)
+    public func create() -> Effect<Action, Never> {
+        createImplementation()
     }
 
-    public func destroy(id: AnyHashable) -> Effect<Never, Never> {
-        destroy(id)
+    public func destroy() -> Effect<Never, Never> {
+        destroyImplementation()
     }
 
-    public func addPeriphal(id: AnyHashable, peripheral: CBPeripheral, services: [CBUUID]?) -> Effect<Never, Never> {
-        addPeripheral(id, peripheral, services)
+    public func addPeriphal(peripheral: CBPeripheral, services: [CBUUID]?) -> Effect<Never, Never> {
+        addPeripheralImplementation(peripheral, services)
     }
 }

@@ -22,18 +22,18 @@
 
         // MARK: - Variables
 
-        var create: (AnyHashable) -> Effect<Action, Never> = { _ in _unimplemented("create") }
+        var createImplementation: () -> Effect<Action, Never> = { _unimplemented("create") }
 
-        var destroy: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("destroy") }
+        var destroyImplementation: () -> Effect<Never, Never> = { _unimplemented("destroy") }
 
         // MARK: - Functions
 
-        public func create(id: AnyHashable) -> Effect<Action, Never> {
-            create(id)
+        public func create() -> Effect<Action, Never> {
+            createImplementation()
         }
 
-        public func destroy(id: AnyHashable) -> Effect<Never, Never> {
-            destroy(id)
+        public func destroy() -> Effect<Never, Never> {
+            destroyImplementation()
         }
     }
 #endif

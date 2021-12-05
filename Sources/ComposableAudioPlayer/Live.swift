@@ -11,7 +11,7 @@ public extension AudioPlayerManager {
 
         var manager = AudioPlayerManager()
 
-        manager.create = { id in
+        manager.createImplementation = {
 
             Effect.run { subscriber in
                 let delegate = AudioPlayerManagerDelegate(subscriber)
@@ -19,7 +19,7 @@ public extension AudioPlayerManager {
                 let player = AVAudioPlayer()
                 player.delegate = delegate
 
-                dependencies[id] = Dependencies(
+                dependencies = Dependencies(
                     delegate: delegate,
                     player: player,
                     subscriber: subscriber,
@@ -27,28 +27,28 @@ public extension AudioPlayerManager {
                 )
 
                 return AnyCancellable {
-                    dependencies[id] = nil
+                    dependencies = nil
                 }
             }
         }
 
-        manager.destroy = { id in
+        manager.destroyImplementation = {
             .fireAndForget {
-                dependencies[id]?.subscriber.send(completion: .finished)
-                dependencies[id] = nil
+                dependencies?.subscriber.send(completion: .finished)
+                dependencies = nil
             }
         }
 
-        manager.play = { id, url in
+        manager.playImplementation = { url in
             .fireAndForget {
                 guard let player = try? AVAudioPlayer(contentsOf: url) else { return }
-                dependencies[id]?.player = player
-                dependencies[id]?.player.play()
+                dependencies?.player = player
+                dependencies?.player.play()
             }
         }
 
-        manager.stop = { id in
-            .fireAndForget { dependencies[id]?.player.pause() }
+        manager.stopImplementation = {
+            .fireAndForget { dependencies?.player.pause() }
         }
 
         return manager
@@ -62,7 +62,7 @@ private struct Dependencies {
     let queue: OperationQueue
 }
 
-private var dependencies: [AnyHashable: Dependencies] = [:]
+private var dependencies: Dependencies?
 
 private class AudioPlayerManagerDelegate: NSObject, AVAudioPlayerDelegate {
     let subscriber: Effect<AudioPlayerManager.Action, Never>.Subscriber

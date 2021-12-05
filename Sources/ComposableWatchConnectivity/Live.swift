@@ -12,12 +12,12 @@
 
             var manager = WatchConnectivityManager()
 
-            manager.create = { id in
+            manager.createImplementation = {
 
                 Effect.run { subscriber in
                     guard WCSession.isSupported() else {
                         return AnyCancellable {
-                            dependencies[id] = nil
+                            dependencies = nil
                         }
                     }
 
@@ -26,48 +26,48 @@
                     session.delegate = delegate
                     session.activate()
 
-                    dependencies[id] = Dependencies(
+                    dependencies = Dependencies(
                         session: session,
                         watchConnectivityDelegate: delegate,
                         subscriber: subscriber
                     )
 
                     return AnyCancellable {
-                        dependencies[id] = nil
+                        dependencies = nil
                     }
                 }
             }
 
-            manager.destroy = { id in
+            manager.destroyImplementation = {
                 .fireAndForget {
-                    dependencies[id]?.subscriber.send(completion: .finished)
-                    dependencies[id] = nil
+                    dependencies?.subscriber.send(completion: .finished)
+                    dependencies = nil
                 }
             }
 
-            manager.updateApplicationContext = { id, applicationContext in
+            manager.updateApplicationContextImplementation = { applicationContext in
                 .fireAndForget {
-                    try? dependencies[id]?.session.updateApplicationContext(applicationContext)
+                    try? dependencies?.session.updateApplicationContext(applicationContext)
                 }
             }
 
-            manager.sendMessage = { id, message, replyHandler in
+            manager.sendMessageImplementation = { message, replyHandler in
                 .fireAndForget {
-                    dependencies[id]?.session.sendMessage(message, replyHandler: replyHandler)
+                    dependencies?.session.sendMessage(message, replyHandler: replyHandler)
                 }
             }
 
-            manager.isReachable = { id in
-                dependencies[id]?.session.isReachable ?? false
+            manager.isReachableImplementation = {
+                dependencies?.session.isReachable ?? false
             }
 
             #if os(iOS)
-                manager.isPaired = { id in
-                    dependencies[id]?.session.isPaired ?? false
+                manager.isPairedImplementation = {
+                    dependencies?.session.isPaired ?? false
                 }
 
-                manager.isWatchAppInstalled = { id in
-                    dependencies[id]?.session.isWatchAppInstalled ?? false
+                manager.isWatchAppInstalledImplementation = {
+                    dependencies?.session.isWatchAppInstalled ?? false
                 }
             #endif
 
@@ -81,7 +81,7 @@
         let subscriber: Effect<WatchConnectivityManager.Action, Never>.Subscriber
     }
 
-    private var dependencies: [AnyHashable: Dependencies] = [:]
+    private var dependencies: Dependencies?
 
     // MARK: - WCSessionDelegate
 

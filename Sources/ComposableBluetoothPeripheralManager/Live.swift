@@ -9,31 +9,31 @@ public extension PeripheralManager {
     static let live: PeripheralManager = { () -> PeripheralManager in
         var peripheral = PeripheralManager()
 
-        peripheral.create = { id in
+        peripheral.createImplementation = {
             Effect.run { subscriber in
                 var delegate = PeripheralDelegate(subscriber)
                 let peripherals = [CBPeripheral]()
 
-                dependencies[id] = Dependencies(delegate: delegate,
+                dependencies = Dependencies(delegate: delegate,
                                                 peripherals: peripherals,
                                                 subscriber: subscriber)
                 return AnyCancellable {
-                    dependencies[id] = nil
+                    dependencies = nil
                 }
             }
         }
 
-        peripheral.destroy = { id in
+        peripheral.destroyImplementation = {
             .fireAndForget {
-                dependencies[id]?.subscriber.send(completion: .finished)
-                dependencies[id] = nil
+                dependencies?.subscriber.send(completion: .finished)
+                dependencies = nil
             }
         }
 
-        peripheral.addPeripheral = { id, peripheral, services in
+        peripheral.addPeripheralImplementation = { peripheral, services in
             .fireAndForget {
-                dependencies[id]?.peripherals.append(peripheral)
-                peripheral.delegate = dependencies[id]?.delegate
+                dependencies?.peripherals.append(peripheral)
+                peripheral.delegate = dependencies?.delegate
                 peripheral.discoverServices(services)
             }
         }
@@ -48,7 +48,7 @@ private struct Dependencies {
     let subscriber: Effect<PeripheralManager.Action, Never>.Subscriber
 }
 
-private var dependencies: [AnyHashable: Dependencies] = [:]
+private var dependencies: Dependencies?
 
 private class PeripheralDelegate: NSObject, CBPeripheralDelegate {
     let subscriber: Effect<PeripheralManager.Action, Never>.Subscriber

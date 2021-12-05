@@ -20,63 +20,67 @@ public struct SpeechSynthesizerManager {
         case willSepakRangeOfSpeachString(NSRange, utterance: AVSpeechUtterance)
     }
 
-    var create: (AnyHashable) -> Effect<Action, Never> = { _ in _unimplemented("create") }
+    var createImplementation: () -> Effect<Action, Never> = { _unimplemented("create") }
 
-    var destroy: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("destroy") }
-
-    @available(macOS, unavailable)
-    var speak: (AnyHashable, AVSpeechUtterance) -> Effect<Never, Never> = { _, _ in _unimplemented("speak") }
+    var destroyImplementation: () -> Effect<Never, Never> = { _unimplemented("destroy") }
 
     @available(macOS, unavailable)
-    var continueSpeaking: (AnyHashable) -> Effect<Bool, Never> = { _ in _unimplemented("continueSpeaking") }
+    var speakImplementation: (AVSpeechUtterance) -> Effect<Never, Never> = { _ in _unimplemented("speak") }
 
     @available(macOS, unavailable)
-    var pauseSpeaking: (AnyHashable, AVSpeechBoundary) -> Effect<Never, Never> = { _, _ in _unimplemented("pauseSpeaking") }
+    var continueSpeakingImplementation: () -> Effect<Bool, Never> = { _unimplemented("continueSpeaking") }
 
     @available(macOS, unavailable)
-    public var isPaused: (AnyHashable) -> Bool? = { _ in _unimplemented("isPaused") }
-
-    @available(macOS, unavailable)
-    public var isSpeaking: (AnyHashable) -> Bool? = { _ in _unimplemented("isSpeaking") }
-
-    @available(macOS, unavailable)
-    var stopSpeaking: (AnyHashable, AVSpeechBoundary) -> Effect<Never, Never> = { _, _ in _unimplemented("stopSpeaking") }
-
-    public func create(id: AnyHashable, queue _: DispatchQueue? = nil, options _: [String: Any]? = nil) -> Effect<Action, Never> {
-        create(id)
-    }
-
-    public func destroy(id: AnyHashable) -> Effect<Never, Never> {
-        destroy(id)
+    var pauseSpeakingImplementation: (AVSpeechBoundary) -> Effect<Never, Never> = { _ in
+        _unimplemented("pauseSpeaking")
     }
 
     @available(macOS, unavailable)
-    public func speak(id: AnyHashable, utterance: AVSpeechUtterance) -> Effect<Never, Never> {
-        speak(id, utterance)
+    public var isPausedImplementation: () -> Bool? = { _unimplemented("isPaused") }
+
+    @available(macOS, unavailable)
+    public var isSpeakingImplementation: () -> Bool? = { _unimplemented("isSpeaking") }
+
+    @available(macOS, unavailable)
+    var stopSpeakingImplementation: (AVSpeechBoundary) -> Effect<Never, Never> = { _ in
+        _unimplemented("stopSpeaking")
+    }
+
+    public func create(queue _: DispatchQueue? = nil, options _: [String: Any]? = nil) -> Effect<Action, Never> {
+        createImplementation()
+    }
+
+    public func destroy() -> Effect<Never, Never> {
+        destroyImplementation()
     }
 
     @available(macOS, unavailable)
-    public func continueSpeaking(id: AnyHashable) -> Effect<Bool, Never> {
-        continueSpeaking(id)
+    public func speak(utterance: AVSpeechUtterance) -> Effect<Never, Never> {
+        speakImplementation(utterance)
     }
 
     @available(macOS, unavailable)
-    public func pauseSpeaking(id: AnyHashable, at: AVSpeechBoundary) -> Effect<Never, Never> {
-        pauseSpeaking(id, at)
+    public func continueSpeaking() -> Effect<Bool, Never> {
+        continueSpeakingImplementation()
     }
 
     @available(macOS, unavailable)
-    public func isPaused(id: AnyHashable) -> Bool? {
-        isPaused(id)
+    public func pauseSpeaking(at: AVSpeechBoundary) -> Effect<Never, Never> {
+        pauseSpeakingImplementation(at)
     }
 
     @available(macOS, unavailable)
-    public func isSpeaking(id: AnyHashable) -> Bool? {
-        isSpeaking(id)
+    public func isPaused() -> Bool? {
+        isPausedImplementation()
     }
 
     @available(macOS, unavailable)
-    public func stopSpeaking(id: AnyHashable, at: AVSpeechBoundary) -> Effect<Never, Never> {
-        stopSpeaking(id, at)
+    public func isSpeaking() -> Bool? {
+        isSpeakingImplementation()
+    }
+
+    @available(macOS, unavailable)
+    public func stopSpeaking(at: AVSpeechBoundary) -> Effect<Never, Never> {
+        stopSpeakingImplementation(at)
     }
 }

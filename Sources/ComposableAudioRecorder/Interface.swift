@@ -20,29 +20,31 @@ public struct AudioRecorderManager {
 
     // MARK: - Variables
 
-    var create: (AnyHashable) -> Effect<Action, Never> = { _ in _unimplemented("create") }
+    var createImplementation: () -> Effect<Action, Never> = { _unimplemented("create") }
 
-    var destroy: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("destroy") }
+    var destroyImplementation: () -> Effect<Never, Never> = { _unimplemented("destroy") }
 
-    var record: (AnyHashable, URL, [String: Any]) -> Effect<Never, Never> = { _, _, _ in _unimplemented("record") }
+    var recordImplementation: (URL, [String: Any]) -> Effect<Never, Never> = { _, _ in
+        _unimplemented("record")
+    }
 
-    var stop: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("stop") }
+    var stopImplementation: () -> Effect<Never, Never> = { _unimplemented("stop") }
 
     // MARK: - Functions
 
-    public func create(id: AnyHashable) -> Effect<Action, Never> {
-        create(id)
+    public func create() -> Effect<Action, Never> {
+        createImplementation()
     }
 
-    public func destroy(id: AnyHashable) -> Effect<Never, Never> {
-        destroy(id)
+    public func destroy() -> Effect<Never, Never> {
+        destroyImplementation()
     }
 
-    func record(id: AnyHashable, url: URL, settings: [String: Any]) -> Effect<Never, Never> {
-        record(id, url, settings)
+    func record(url: URL, settings: [String: Any]) -> Effect<Never, Never> {
+        recordImplementation(url, settings)
     }
 
-    func stop(id: AnyHashable) -> Effect<Never, Never> {
-        stop(id)
+    func stop() -> Effect<Never, Never> {
+        stopImplementation()
     }
 }

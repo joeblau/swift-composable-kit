@@ -11,32 +11,42 @@
     public struct AltimeterManager {
         // MARK: - Variables
 
-        var create: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("create") }
+        var createImplementation: () -> Effect<Never, Never> = { _unimplemented("create") }
 
-        var destroy: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("destroy") }
+        var destroyImplementation: () -> Effect<Never, Never> = { _unimplemented("destroy") }
 
-        public var authorizationStatus: () -> CMAuthorizationStatus = { _unimplemented("authorizationStatus") }
-        public var isRelativeAltitudeAvailable: () -> Bool = { _unimplemented("isRelativeAltitudeAvailable") }
-
-        var startRelativeAltitudeUpdates: (AnyHashable, OperationQueue) -> Effect<RelativeAltitudeData, Error> = { _, _ in _unimplemented("startRelativeAltitudeUpdates") }
-        var stopRelativeAltitudeUpdates: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("stopRelativeAltitudeUpdates") }
+        var startRelativeAltitudeUpdatesImplementation: (OperationQueue) -> Effect<RelativeAltitudeData, Error> = { _ in
+            _unimplemented("startRelativeAltitudeUpdates")
+        }
+        
+        var stopRelativeAltitudeUpdatesImplementation: () -> Effect<Never, Never> = {
+            _unimplemented("stopRelativeAltitudeUpdates")
+        }
+        
+        public var authorizationStatus: () -> CMAuthorizationStatus = {
+            _unimplemented("authorizationStatus")
+        }
+        
+        public var isRelativeAltitudeAvailable: () -> Bool = {
+            _unimplemented("isRelativeAltitudeAvailable")
+        }
 
         // MARK: - Functions
 
-        public func create(id: AnyHashable) -> Effect<Never, Never> {
-            create(id)
+        public func create() -> Effect<Never, Never> {
+            createImplementation()
         }
 
-        public func destroy(id: AnyHashable) -> Effect<Never, Never> {
-            destroy(id)
+        public func destroy() -> Effect<Never, Never> {
+            destroyImplementation()
         }
 
-        public func startRelativeAltitudeUpdates(id: AnyHashable, to queue: OperationQueue = .main) -> Effect<RelativeAltitudeData, Error> {
-            startRelativeAltitudeUpdates(id, queue)
+        public func startRelativeAltitudeUpdates(to queue: OperationQueue = .main) -> Effect<RelativeAltitudeData, Error> {
+            startRelativeAltitudeUpdatesImplementation(queue)
         }
 
-        public func stopRelativeAltitudeUpdates(id: AnyHashable) -> Effect<Never, Never> {
-            stopRelativeAltitudeUpdates(id)
+        public func stopRelativeAltitudeUpdates() -> Effect<Never, Never> {
+            stopRelativeAltitudeUpdatesImplementation()
         }
 
 //    public init(

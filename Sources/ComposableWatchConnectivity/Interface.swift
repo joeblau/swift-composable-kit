@@ -30,56 +30,59 @@
 
         // MARK: - Variables
 
-        var create: (AnyHashable) -> Effect<Action, Never> = { _ in _unimplemented("create") }
+        var createImplementation: () -> Effect<Action, Never> = { _unimplemented("create") }
 
-        var destroy: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("destroy") }
+        var destroyImplementation: () -> Effect<Never, Never> = { _unimplemented("destroy") }
 
-        var updateApplicationContext: (AnyHashable, [String: Any]) -> Effect<Never, Never> = { _, _ in _unimplemented("updateApplicationContext") }
+        var updateApplicationContextImplementation: ([String: Any]) -> Effect<Never, Never> = { _ in _unimplemented("updateApplicationContext")
+        }
 
-        var sendMessage: (AnyHashable, [String: Any], (([String: Any]) -> Void)?) -> Effect<Never, Never> = { _, _, _ in _unimplemented("sendMessage") }
+        var sendMessageImplementation: ([String: Any], (([String: Any]) -> Void)?) -> Effect<Never, Never> = { _, _ in
+            _unimplemented("sendMessage")
+        }
 
-        var isReachable: (AnyHashable) -> Bool = { _ in _unimplemented("isReachable") }
+        var isReachableImplementation: () -> Bool = { _unimplemented("isReachable") }
 
-        var isPaired: (AnyHashable) -> Bool = { _ in _unimplemented("isPaired") }
+        var isPairedImplementation: () -> Bool = { _unimplemented("isPaired") }
 
-        var isWatchAppInstalled: (AnyHashable) -> Bool = { _ in _unimplemented("isWatchAppInstalled") }
+        var isWatchAppInstalledImplementation: () -> Bool = { _unimplemented("isWatchAppInstalled") }
 
-        var validReachableSession: (AnyHashable) -> Bool = { _ in _unimplemented("validReachableSession") }
+        var validReachableSessionImplementation: () -> Bool = { _unimplemented("validReachableSession") }
 
         // MARK: - Functions
 
-        public func create(id: AnyHashable) -> Effect<Action, Never> {
-            create(id)
+        public func create() -> Effect<Action, Never> {
+            createImplementation()
         }
 
-        public func destroy(id: AnyHashable) -> Effect<Never, Never> {
-            destroy(id)
+        public func destroy() -> Effect<Never, Never> {
+            destroyImplementation()
         }
 
-        public func updateApplicationContext(id: AnyHashable, applicationContext: [String: Any]) -> Effect<Never, Never> {
-            updateApplicationContext(id, applicationContext)
+        public func updateApplicationContext(applicationContext: [String: Any]) -> Effect<Never, Never> {
+            updateApplicationContextImplementation(applicationContext)
         }
 
-        public func sendMessage(id: AnyHashable, message: [String: Any], replyHandler: (([String: Any]) -> Void)?) -> Effect<Never, Never> {
-            sendMessage(id, message, replyHandler)
+        public func sendMessage(message: [String: Any], replyHandler: (([String: Any]) -> Void)?) -> Effect<Never, Never> {
+            sendMessageImplementation(message, replyHandler)
         }
 
-        public func isReachable(id: AnyHashable) -> Bool {
-            isReachable(id)
+        public func isReachable() -> Bool {
+            isReachableImplementation()
         }
 
         #if os(iOS)
-            public func isPaired(id: AnyHashable) -> Bool {
-                isPaired(id)
+            public func isPaired() -> Bool {
+                isPairedImplementation()
             }
 
-            public func isWatchAppInstalled(id: AnyHashable) -> Bool {
-                isWatchAppInstalled(id)
+            public func isWatchAppInstalled() -> Bool {
+                isWatchAppInstalledImplementation()
             }
         #endif
 
-        public func validReachableSession(id: AnyHashable) -> Bool {
-            validReachableSession(id)
+        public func validReachableSession() -> Bool {
+            validReachableSessionImplementation()
         }
     }
 #endif

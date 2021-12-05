@@ -24,22 +24,22 @@ public struct LocalSearchManager {
         }
     }
 
-    var create: (AnyHashable, MKLocalSearchCompleter.ResultType) -> Effect<Action, Never> = { _, _ in _unimplemented("create") }
+    var createImplementation: (MKLocalSearchCompleter.ResultType) -> Effect<Action, Never> = { _ in _unimplemented("create") }
 
-    var destroy: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("destroy") }
+    var destroyImplementation: () -> Effect<Never, Never> = { _unimplemented("destroy") }
 
-    var query: (AnyHashable, String) -> Effect<Never, Never> = { _, _ in _unimplemented("query") }
+    var queryImplementation: (String) -> Effect<Never, Never> = { _ in _unimplemented("query") }
 
-    public func create(id: AnyHashable, resultTypes: MKLocalSearchCompleter.ResultType) -> Effect<Action, Never> {
-        create(id, resultTypes)
+    public func create(resultTypes: MKLocalSearchCompleter.ResultType) -> Effect<Action, Never> {
+        createImplementation(resultTypes)
     }
 
-    public func destroy(id: AnyHashable) -> Effect<Never, Never> {
-        destroy(id)
+    public func destroy() -> Effect<Never, Never> {
+        destroyImplementation()
     }
 
-    public func query(id: AnyHashable, fragment: String) -> Effect<Never, Never> {
-        query(id, fragment)
+    public func query(fragment: String) -> Effect<Never, Never> {
+        queryImplementation(fragment)
     }
 }
 

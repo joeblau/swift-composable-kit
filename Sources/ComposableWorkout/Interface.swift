@@ -22,48 +22,53 @@
 
         // MARK: - Variables
 
-        var create: (AnyHashable, HKWorkoutConfiguration) -> Effect<Action, Never> = { _, _ in _unimplemented("create") }
+        var createImplementation: (HKWorkoutConfiguration) -> Effect<Action, Never> = { _ in _unimplemented("create")
+        }
 
-        var destroy: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("destroy") }
+        var destroyImplementation: () -> Effect<Never, Never> = { _unimplemented("destroy") }
 
-        var startActivity: (AnyHashable, Date) -> Effect<Never, Never> = { _, _ in _unimplemented("startActivity") }
+        var startActivityImplementation: (Date) -> Effect<Never, Never> = { _ in _unimplemented("startActivity") }
 
-        var pauseSession: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("pauseSession") }
+        var pauseSessionImplementation: () -> Effect<Never, Never> = { _unimplemented("pauseSession") }
 
-        var resumeSession: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("resumeSession") }
+        var resumeSessionImplementation: () -> Effect<Never, Never> = { _unimplemented("resumeSession") }
 
-        var discardWorkout: (AnyHashable, Date) -> Effect<Never, Never> = { _, _ in _unimplemented("discardWorkout") }
+        var discardWorkoutImplementation: (Date) -> Effect<Never, Never> = { _ in
+            _unimplemented("discardWorkout")
+        }
 
-        var finishWorkout: (AnyHashable, Date) -> Effect<Never, Never> = { _, _ in _unimplemented("finishWorkout") }
+        var finishWorkoutImplementation: (Date) -> Effect<Never, Never> = { _ in
+            _unimplemented("finishWorkout")
+        }
 
         // MARK: - Functions
 
-        public func create(id: AnyHashable, workoutConfiguration: HKWorkoutConfiguration) -> Effect<Action, Never> {
-            create(id, workoutConfiguration)
+        public func create(workoutConfiguration: HKWorkoutConfiguration) -> Effect<Action, Never> {
+            createImplementation(workoutConfiguration)
         }
 
-        public func destroy(id: AnyHashable) -> Effect<Never, Never> {
-            destroy(id)
+        public func destroy() -> Effect<Never, Never> {
+            destroyImplementation()
         }
 
-        public func startActivity(id: AnyHashable, date: Date) -> Effect<Never, Never> {
-            startActivity(id, date)
+        public func startActivity(date: Date) -> Effect<Never, Never> {
+            startActivityImplementation(date)
         }
 
-        public func pauseSession(id: AnyHashable) -> Effect<Never, Never> {
-            pauseSession(id)
+        public func pauseSession() -> Effect<Never, Never> {
+            pauseSessionImplementation()
         }
 
-        public func resumeSession(id: AnyHashable) -> Effect<Never, Never> {
-            resumeSession(id)
+        public func resumeSession() -> Effect<Never, Never> {
+            resumeSessionImplementation()
         }
 
-        public func discardWorkout(id: AnyHashable, date: Date) -> Effect<Never, Never> {
-            discardWorkout(id, date)
+        public func discardWorkout(date: Date) -> Effect<Never, Never> {
+            discardWorkoutImplementation(date)
         }
 
-        public func finishWorkout(id: AnyHashable, date: Date) -> Effect<Never, Never> {
-            finishWorkout(id, date)
+        public func finishWorkout(date: Date) -> Effect<Never, Never> {
+            finishWorkoutImplementation(date)
         }
     }
 #endif

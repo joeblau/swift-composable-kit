@@ -10,27 +10,27 @@ public struct FastManager {
         case didReceive(message: WKScriptMessage)
     }
 
-    var create: (AnyHashable) -> Effect<Action, Never> = { _ in _unimplemented("create") }
+    var createImplementation: () -> Effect<Action, Never> = { _unimplemented("create") }
 
-    var destroy: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("destroy") }
+    var destroyImplementation: () -> Effect<Never, Never> = { _unimplemented("destroy") }
 
-    var startTest: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("startTest") }
+    var startTestImplementation: () -> Effect<Never, Never> = { _unimplemented("startTest") }
 
-    var stopTest: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("stopTest") }
+    var stopTestImplementation: () -> Effect<Never, Never> = { _unimplemented("stopTest") }
 
-    public func create(id: AnyHashable, queue _: DispatchQueue? = nil, options _: [String: Any]? = nil) -> Effect<Action, Never> {
-        create(id)
+    public func create(queue _: DispatchQueue? = nil, options _: [String: Any]? = nil) -> Effect<Action, Never> {
+        createImplementation()
     }
 
-    public func destroy(id: AnyHashable) -> Effect<Never, Never> {
-        destroy(id)
+    public func destroy() -> Effect<Never, Never> {
+        destroyImplementation()
     }
 
-    public func startTest(id: AnyHashable) -> Effect<Never, Never> {
-        startTest(id)
+    public func startTest() -> Effect<Never, Never> {
+        startTestImplementation()
     }
 
-    public func stopTest(id: AnyHashable) -> Effect<Never, Never> {
-        stopTest(id)
+    public func stopTest() -> Effect<Never, Never> {
+        stopTestImplementation()
     }
 }

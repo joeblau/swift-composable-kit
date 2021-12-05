@@ -12,7 +12,7 @@
 
             var manager = WorkoutManager()
 
-            manager.create = { id, workoutConfiguration in
+            manager.createImplementation = { workoutConfiguration in
                 Effect.run { subscriber in
                     let healthStore = HKHealthStore()
 
@@ -24,7 +24,7 @@
                         workoutSession = try HKWorkoutSession(healthStore: healthStore, configuration: workoutConfiguration)
                     } catch {
                         return AnyCancellable {
-                            dependencies[id] = nil
+                            dependencies = nil
                         }
                     }
 
@@ -34,7 +34,7 @@
                     workoutSession?.delegate = workoutSessionDelegate
                     workoutBuilder?.delegate = liveWorkoutBuilderDelegate
 
-                    dependencies[id] = Dependencies(
+                    dependencies = Dependencies(
                         healthStore: healthStore,
                         workoutSession: workoutSession,
                         workoutBuilder: workoutBuilder,
@@ -44,51 +44,51 @@
                     )
 
                     return AnyCancellable {
-                        dependencies[id] = nil
+                        dependencies = nil
                     }
                 }
             }
 
-            manager.startActivity = { id, date in
+            manager.startActivityImplementation = { date in
                 .fireAndForget {
-                    dependencies[id]?.workoutBuilder?.beginCollection(withStart: date) { _, _ in }
-                    dependencies[id]?.workoutSession?.prepare()
-                    dependencies[id]?.workoutSession?.startActivity(with: date)
+                    dependencies?.workoutBuilder?.beginCollection(withStart: date) { _, _ in }
+                    dependencies?.workoutSession?.prepare()
+                    dependencies?.workoutSession?.startActivity(with: date)
                 }
             }
 
-            manager.pauseSession = { id in
+            manager.pauseSessionImplementation = {
                 .fireAndForget {
-                    dependencies[id]?.workoutSession?.pause()
+                    dependencies?.workoutSession?.pause()
                 }
             }
 
-            manager.resumeSession = { id in
+            manager.resumeSessionImplementation = {
                 .fireAndForget {
-                    dependencies[id]?.workoutSession?.resume()
+                    dependencies?.workoutSession?.resume()
                 }
             }
 
-            manager.discardWorkout = { id, _ in
+            manager.discardWorkoutImplementation = { _ in
                 .fireAndForget {
-                    dependencies[id]?.workoutSession?.end()
-                    dependencies[id]?.workoutBuilder?.discardWorkout()
+                    dependencies?.workoutSession?.end()
+                    dependencies?.workoutBuilder?.discardWorkout()
                 }
             }
 
-            manager.finishWorkout = { id, date in
+            manager.finishWorkoutImplementation = { date in
                 .fireAndForget {
-                    dependencies[id]?.workoutSession?.end()
-                    dependencies[id]?.workoutBuilder?.endCollection(withEnd: date) { _, _ in
-                        dependencies[id]?.workoutBuilder?.finishWorkout { _, _ in }
+                    dependencies?.workoutSession?.end()
+                    dependencies?.workoutBuilder?.endCollection(withEnd: date) { _, _ in
+                        dependencies?.workoutBuilder?.finishWorkout { _, _ in }
                     }
                 }
             }
 
-            manager.destroy = { id in
+            manager.destroyImplementation = {
                 .fireAndForget {
-                    dependencies[id]?.subscriber.send(completion: .finished)
-                    dependencies[id] = nil
+                    dependencies?.subscriber.send(completion: .finished)
+                    dependencies = nil
                 }
             }
 
@@ -105,7 +105,7 @@
         let subscriber: Effect<WorkoutManager.Action, Never>.Subscriber
     }
 
-    private var dependencies: [AnyHashable: Dependencies] = [:]
+    private var dependencies: Dependencies?
 
     // MARK: - HKLiveWorkoutBuilderDelegate
 

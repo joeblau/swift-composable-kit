@@ -46,7 +46,7 @@ public extension FastManager {
     static let live: FastManager = { () -> FastManager in
         var manager = FastManager()
 
-        manager.create = { id in
+        manager.createImplementation = {
             Effect.run { subscriber in
                 let delegate = FastManagerDelegate(subscriber)
                 let userContent = WKUserContentController()
@@ -61,33 +61,33 @@ public extension FastManager {
                 let webview = WKWebView(frame: CGRect(x: 0, y: 0, width: 100, height: 100),
                                         configuration: config)
 
-                dependencies[id] = Dependencies(delegate: delegate,
+                dependencies = Dependencies(delegate: delegate,
                                                 userContent: userContent,
                                                 config: config,
                                                 webView: webview,
                                                 subscriber: subscriber)
                 return AnyCancellable {
-                    dependencies[id] = nil
+                    dependencies = nil
                 }
             }
         }
 
-        manager.destroy = { id in
+        manager.destroyImplementation = {
             .fireAndForget {
-                dependencies[id]?.subscriber.send(completion: .finished)
-                dependencies[id] = nil
+                dependencies?.subscriber.send(completion: .finished)
+                dependencies = nil
             }
         }
 
-        manager.startTest = { id in
+        manager.startTestImplementation = {
             .fireAndForget {
-                dependencies[id]?.webView.load(URLRequest(url: URL(string: "https://fast.com")!))
+                dependencies?.webView.load(URLRequest(url: URL(string: "https://fast.com")!))
             }
         }
 
-        manager.stopTest = { id in
+        manager.stopTestImplementation = {
             .fireAndForget {
-                dependencies[id]?.webView.stopLoading()
+                dependencies?.webView.stopLoading()
             }
         }
         return manager
@@ -104,7 +104,7 @@ private struct Dependencies {
     let subscriber: Effect<FastManager.Action, Never>.Subscriber
 }
 
-private var dependencies: [AnyHashable: Dependencies] = [:]
+private var dependencies: Dependencies?
 
 // MARK: - Delegate
 

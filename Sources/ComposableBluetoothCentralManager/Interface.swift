@@ -22,30 +22,38 @@ public struct CentralManager {
         case didUpdateANCSAuthorizationFor(peripheral: CBPeripheral)
     }
 
-    var create: (AnyHashable, DispatchQueue?, [String: Any]?) -> Effect<Action, Never> = { _, _, _ in _unimplemented("create") }
+    var createImplementation: (DispatchQueue?, [String: Any]?) -> Effect<Action, Never> = { _, _ in _unimplemented("create") }
 
-    var destroy: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("destroy") }
+    var destroyImplementation: () -> Effect<Never, Never> = { _unimplemented("destroy") }
 
-    var connect: (AnyHashable, CBPeripheral, [String: Any]?) -> Effect<Never, Never> = { _, _, _ in _unimplemented("connect") }
+    var connectImplementation: (CBPeripheral, [String: Any]?) -> Effect<Never, Never> = { _, _ in _unimplemented("connect") }
 
-    var cancelPeripheralConnection: (AnyHashable, CBPeripheral) -> Effect<Never, Never> = { _, _ in _unimplemented("cancelPeripheralConnection") }
+    var cancelPeripheralConnectionImplementation: (CBPeripheral) -> Effect<Never, Never> = { _ in
+        _unimplemented("cancelPeripheralConnection")
+    }
 
-    var retrieveConnectedPeripherals: (AnyHashable, [CBUUID]) -> [CBPeripheral]? = { _, _ in _unimplemented("retrieveConnectedPeripherals") }
+    var retrieveConnectedPeripheralsImplementation: ([CBUUID]) -> [CBPeripheral]? = { _ in
+        _unimplemented("retrieveConnectedPeripherals")
+    }
 
-    var retrievePeripherals: (AnyHashable, [UUID]) -> [CBPeripheral]? = { _, _ in _unimplemented("retrievePeripherals") }
+    var retrievePeripheralsImplementation: ([UUID]) -> [CBPeripheral]? = { _ in _unimplemented("retrievePeripherals") }
 
-    var scanForPeripherals: (AnyHashable, [CBUUID]?, [String: Any]?) -> Effect<Never, Never> = { _, _, _ in _unimplemented("scanForPeripherals") }
+    var scanForPeripheralsImplementation: ([CBUUID]?, [String: Any]?) -> Effect<Never, Never> = { _, _ in
+        _unimplemented("scanForPeripherals")
+    }
 
-    var stopScan: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("stopScan") }
+    var stopScanImplementation: () -> Effect<Never, Never> = { _unimplemented("stopScan") }
 
-    public var isScanning: (AnyHashable) -> Bool = { _ in _unimplemented("isScanning") }
+    var isScanningImplementation: () -> Bool = { _unimplemented("isScanning") }
 
-    public var state: (AnyHashable) -> CBManagerState = { _ in _unimplemented("state") }
+    var stateImplementation: () -> CBManagerState = { _unimplemented("state") }
 
     @available(macOS, unavailable)
-    var supports: (AnyHashable, CBCentralManager.Feature) -> Bool = { _, _ in _unimplemented("supports") }
+    var supportsImplementation: (CBCentralManager.Feature) -> Bool = { _ in _unimplemented("supports") }
 
-    var registerForConnectionEvents: (AnyHashable, [CBConnectionEventMatchingOption: Any]?) -> Effect<Never, Never> = { _, _ in _unimplemented("registerForConnectionEvents") }
+    var registerForConnectionEventsImplementation: ([CBConnectionEventMatchingOption: Any]?) -> Effect<Never, Never> = { _ in
+        _unimplemented("registerForConnectionEvents")
+    }
 
     public struct Error: Swift.Error, Equatable {
         public let error: NSError?
@@ -57,63 +65,63 @@ public struct CentralManager {
 
     // MARK: - Concrete
 
-    public func create(id: AnyHashable, queue: DispatchQueue? = nil, options: [String: Any]? = nil) -> Effect<Action, Never> {
-        create(id, queue, options)
+    public func create(queue: DispatchQueue? = nil, options: [String: Any]? = nil) -> Effect<Action, Never> {
+        createImplementation(queue, options)
     }
 
-    public func destroy(id: AnyHashable) -> Effect<Never, Never> {
-        destroy(id)
+    public func destroy() -> Effect<Never, Never> {
+        destroyImplementation()
     }
 
     /// Establishing or Canceling Connections with Peripherals
 
-    public func connect(id: AnyHashable, peripheral: CBPeripheral, options: [String: Any]?) -> Effect<Never, Never> {
-        connect(id, peripheral, options)
+    public func connect(peripheral: CBPeripheral, options: [String: Any]?) -> Effect<Never, Never> {
+        connectImplementation(peripheral, options)
     }
 
-    public func cancelPeripheralConnection(id: AnyHashable, peripheral: CBPeripheral) -> Effect<Never, Never> {
-        cancelPeripheralConnection(id, peripheral)
+    public func cancelPeripheralConnection(peripheral: CBPeripheral) -> Effect<Never, Never> {
+        cancelPeripheralConnectionImplementation(peripheral)
     }
 
     /// Retrieving Lists of Peripherals
 
-    public func retrieveConnectedPeripherals(id: AnyHashable, withServices: [CBUUID]) -> [CBPeripheral]? {
-        retrieveConnectedPeripherals(id, withServices)
+    public func retrieveConnectedPeripherals(withServices services: [CBUUID]) -> [CBPeripheral]? {
+        retrieveConnectedPeripheralsImplementation(services)
     }
 
-    public func retrievePeripherals(id: AnyHashable, withIdentifiers: [UUID]) -> [CBPeripheral]? {
-        retrievePeripherals(id, withIdentifiers)
+    public func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> [CBPeripheral]? {
+        retrievePeripheralsImplementation(identifiers)
     }
 
     /// Scanning or Stopping Scans of Peripherals
 
-    public func scanForPeripherals(id: AnyHashable, withServices: [CBUUID]?, options: [String: Any]?) -> Effect<Never, Never> {
-        scanForPeripherals(id, withServices, options)
+    public func scanForPeripherals(withServices services: [CBUUID]?, options: [String: Any]?) -> Effect<Never, Never> {
+        scanForPeripheralsImplementation(services, options)
     }
 
-    public func stopScan(id: AnyHashable) -> Effect<Never, Never> {
-        stopScan(id)
+    public func stopScan() -> Effect<Never, Never> {
+        stopScanImplementation()
     }
 
-    public func isScanning(id: AnyHashable) -> Bool {
-        isScanning(id)
+    public func isScanning() -> Bool {
+        isScanningImplementation()
     }
 
-    public func state(id: AnyHashable) -> CBManagerState {
-        state(id)
+    public func state() -> CBManagerState {
+        stateImplementation()
     }
 
     /// Inspecting Feature Support
 
     @available(macOS, unavailable)
-    public func supports(id: AnyHashable, features: CBCentralManager.Feature) -> Bool {
-        supports(id, features)
+    public func supports(features: CBCentralManager.Feature) -> Bool {
+        supportsImplementation(features)
     }
 
     /// Receiving Connection Events
 
-    public func registerForConnectionEvents(id: AnyHashable, options: [CBConnectionEventMatchingOption: Any]?) -> Effect<Never, Never> {
-        registerForConnectionEvents(id, options)
+    public func registerForConnectionEvents(options: [CBConnectionEventMatchingOption: Any]?) -> Effect<Never, Never> {
+        registerForConnectionEventsImplementation(options)
     }
 
     // MARK: - Actions

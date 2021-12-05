@@ -12,37 +12,37 @@
 
             var manager = HealthStoreManager()
 
-            manager.create = { id in
+            manager.createImplementation = {
                 Effect.run { subscriber in
-                    dependencies[id] = Dependencies(
+                    dependencies = Dependencies(
                         healthStore: HKHealthStore(),
                         subscriber: subscriber
                     )
 
                     return AnyCancellable {
-                        dependencies[id] = nil
+                        dependencies = nil
                     }
                 }
             }
 
-            manager.destroy = { id in
+            manager.destroyImplementation = {
                 .fireAndForget {
-                    dependencies[id]?.subscriber.send(completion: .finished)
-                    dependencies[id] = nil
+                    dependencies?.subscriber.send(completion: .finished)
+                    dependencies = nil
                 }
             }
 
-            manager.requestAuthorization = { id, typesToShare, typeToRead in
+            manager.requestAuthorizationImplementation = { typesToShare, typeToRead in
                 .fireAndForget {
                     guard HKHealthStore.isHealthDataAvailable() else { return }
-                    dependencies[id]?.healthStore.requestAuthorization(toShare: typesToShare, read: typeToRead) { _, _ in
+                    dependencies?.healthStore.requestAuthorization(toShare: typesToShare, read: typeToRead) { _, _ in
                     }
                 }
             }
 
-            manager.isHealthAuthorizedFor = { id, typesToShare, typesToRead in
+            manager.isHealthAuthorizedForImplementation = { typesToShare, typesToRead in
                 .future { futureCompletion in
-                    dependencies[id]?.healthStore.getRequestStatusForAuthorization(toShare: typesToShare, read: typesToRead, completion: { status, error in
+                    dependencies?.healthStore.getRequestStatusForAuthorization(toShare: typesToShare, read: typesToRead, completion: { status, error in
                         switch error {
                         case .some:
                             break
@@ -56,9 +56,9 @@
                 }
             }
 
-            manager.startWatchApp = { id, configuration in
+            manager.startWatchAppImplementation = { configuration in
                 .future { futureCompletion in
-                    dependencies[id]?.healthStore.startWatchApp(with: configuration, completion: { _, error in
+                    dependencies?.healthStore.startWatchApp(with: configuration, completion: { _, error in
                         switch error {
                         case .some:
                             return futureCompletion(.success(false))
@@ -78,5 +78,5 @@
         let subscriber: Effect<HealthStoreManager.Action, Never>.Subscriber
     }
 
-    private var dependencies: [AnyHashable: Dependencies] = [:]
+    private var dependencies: Dependencies?
 #endif

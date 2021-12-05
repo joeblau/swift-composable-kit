@@ -11,34 +11,34 @@ public extension SpeechSynthesizerManager {
     static let live: SpeechSynthesizerManager = { () -> SpeechSynthesizerManager in
         var manager = SpeechSynthesizerManager()
 
-        manager.create = { id in
+        manager.createImplementation = {
             Effect.run { subscriber in
                 let delegate = SpeechSynthesizerManagerDelegate(subscriber)
                 let speechSynthesizer = AVSpeechSynthesizer()
                 speechSynthesizer.delegate = delegate
 
-                dependencies[id] = Dependencies(delegate: delegate,
+                dependencies = Dependencies(delegate: delegate,
                                                 speechSynthesizer: speechSynthesizer,
                                                 subscriber: subscriber)
                 return AnyCancellable {
-                    dependencies[id] = nil
+                    dependencies = nil
                 }
             }
         }
 
-        manager.destroy = { id in
+        manager.destroyImplementation = {
             .fireAndForget {
-                dependencies[id]?.subscriber.send(completion: .finished)
-                dependencies[id] = nil
+                dependencies?.subscriber.send(completion: .finished)
+                dependencies = nil
             }
         }
 
         #if os(iOS) || os(watchOS) || targetEnvironment(macCatalyst)
-            manager.speak = { id, utterance in
+            manager.speakImplementation = { utterance in
                 .fireAndForget {
                     do {
                         try AVAudioSession.sharedInstance().setCategory(.playback, mode: .spokenAudio, options: .mixWithOthers)
-                        dependencies[id]?.speechSynthesizer.speak(utterance)
+                        dependencies?.speechSynthesizer.speak(utterance)
                     } catch {
                         os_log("%@", error.localizedDescription)
                     }
@@ -47,11 +47,11 @@ public extension SpeechSynthesizerManager {
         #endif
 
         #if os(iOS) || os(watchOS) || targetEnvironment(macCatalyst)
-            manager.continueSpeaking = { id in
+            manager.continueSpeakingImplementation = {
                 .fireAndForget {
                     do {
                         try AVAudioSession.sharedInstance().setCategory(.playback, mode: .spokenAudio, options: .mixWithOthers)
-                        dependencies[id]?.speechSynthesizer.continueSpeaking()
+                        dependencies?.speechSynthesizer.continueSpeaking()
                     } catch {
                         os_log("%@", error.localizedDescription)
                     }
@@ -60,29 +60,29 @@ public extension SpeechSynthesizerManager {
         #endif
 
         #if os(iOS) || os(watchOS) || targetEnvironment(macCatalyst)
-            manager.pauseSpeaking = { id, boundary in
+            manager.pauseSpeakingImplementation = { boundary in
                 .fireAndForget {
-                    dependencies[id]?.speechSynthesizer.pauseSpeaking(at: boundary)
+                    dependencies?.speechSynthesizer.pauseSpeaking(at: boundary)
                 }
             }
         #endif
 
         #if os(iOS) || os(watchOS) || targetEnvironment(macCatalyst)
-            manager.isPaused = { id in
-                dependencies[id]?.speechSynthesizer.isPaused
+            manager.isPausedImplementation = {
+                dependencies?.speechSynthesizer.isPaused
             }
         #endif
 
         #if os(iOS) || os(watchOS) || targetEnvironment(macCatalyst)
-            manager.isSpeaking = { id in
-                dependencies[id]?.speechSynthesizer.isSpeaking
+            manager.isSpeakingImplementation = {
+                dependencies?.speechSynthesizer.isSpeaking
             }
         #endif
 
         #if os(iOS) || os(watchOS) || targetEnvironment(macCatalyst)
-            manager.stopSpeaking = { id, boundary in
+            manager.stopSpeakingImplementation = { boundary in
                 .fireAndForget {
-                    dependencies[id]?.speechSynthesizer.stopSpeaking(at: boundary)
+                    dependencies?.speechSynthesizer.stopSpeaking(at: boundary)
                 }
             }
         #endif
@@ -99,7 +99,7 @@ private struct Dependencies {
     let subscriber: Effect<SpeechSynthesizerManager.Action, Never>.Subscriber
 }
 
-private var dependencies: [AnyHashable: Dependencies] = [:]
+private var dependencies: Dependencies?
 
 // MARK: - Delegate
 

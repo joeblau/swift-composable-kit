@@ -9,69 +9,69 @@ public extension CentralManager {
     static let live: CentralManager = { () -> CentralManager in
         var manager = CentralManager()
 
-        manager.create = { id, queue, options in
+        manager.createImplementation = { queue, options in
             Effect.run { subscriber in
                 var delegate = CentralManagerDelegate(subscriber)
                 let manager = CBCentralManager(delegate: delegate, queue: queue, options: options)
 
-                dependencies[id] = Dependencies(delegate: delegate,
+                dependencies = Dependencies(delegate: delegate,
                                                 manager: manager,
                                                 subscriber: subscriber)
                 return AnyCancellable {
-                    dependencies[id] = nil
+                    dependencies = nil
                 }
             }
         }
 
-        manager.destroy = { id in
+        manager.destroyImplementation = {
             .fireAndForget {
-                dependencies[id]?.subscriber.send(completion: .finished)
-                dependencies[id] = nil
+                dependencies?.subscriber.send(completion: .finished)
+                dependencies = nil
             }
         }
 
-        manager.connect = { id, peripheral, options in
+        manager.connectImplementation = { peripheral, options in
             .fireAndForget {
-                dependencies[id]?.manager.connect(peripheral, options: options)
+                dependencies?.manager.connect(peripheral, options: options)
             }
         }
 
-        manager.cancelPeripheralConnection = { id, peripheral in
+        manager.cancelPeripheralConnectionImplementation = { peripheral in
             .fireAndForget {
-                dependencies[id]?.manager.cancelPeripheralConnection(peripheral)
+                dependencies?.manager.cancelPeripheralConnection(peripheral)
             }
         }
 
-        manager.retrieveConnectedPeripherals = { id, services in
-            dependencies[id]?.manager.retrieveConnectedPeripherals(withServices: services)
+        manager.retrieveConnectedPeripheralsImplementation = { services in
+            dependencies?.manager.retrieveConnectedPeripherals(withServices: services)
         }
 
-        manager.retrievePeripherals = { id, identifiers in
-            dependencies[id]?.manager.retrievePeripherals(withIdentifiers: identifiers)
+        manager.retrievePeripheralsImplementation = { identifiers in
+            dependencies?.manager.retrievePeripherals(withIdentifiers: identifiers)
         }
 
-        manager.scanForPeripherals = { id, services, options in
+        manager.scanForPeripheralsImplementation = { services, options in
             .fireAndForget {
-                dependencies[id]?.manager.scanForPeripherals(withServices: services, options: options)
+                dependencies?.manager.scanForPeripherals(withServices: services, options: options)
             }
         }
 
-        manager.stopScan = { id in
+        manager.stopScanImplementation = {
             .fireAndForget {
-                dependencies[id]?.manager.stopScan()
+                dependencies?.manager.stopScan()
             }
         }
 
         #if os(iOS) || os(tvOS) || os(watchOS) || targetEnvironment(macCatalyst)
-            manager.registerForConnectionEvents = { id, options in
+            manager.registerForConnectionEventsImplementation = { options in
                 .fireAndForget {
-                    dependencies[id]?.manager.registerForConnectionEvents(options: options)
+                    dependencies?.manager.registerForConnectionEvents(options: options)
                 }
             }
         #endif
 
-        manager.state = { id in
-            guard let dependency = dependencies[id] else { preconditionFailure("invalid dependency") }
+        manager.stateImplementation = {
+            guard let dependency = dependencies else { preconditionFailure("invalid dependency") }
             return dependency.manager.state
         }
 
@@ -85,7 +85,7 @@ private struct Dependencies {
     let subscriber: Effect<CentralManager.Action, Never>.Subscriber
 }
 
-private var dependencies: [AnyHashable: Dependencies] = [:]
+private var dependencies: Dependencies?
 
 private class CentralManagerDelegate: NSObject, CBCentralManagerDelegate {
     let subscriber: Effect<CentralManager.Action, Never>.Subscriber

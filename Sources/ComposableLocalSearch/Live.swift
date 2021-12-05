@@ -17,25 +17,25 @@ public extension LocalSearchManager {
 
         var manager = LocalSearchManager()
 
-        manager.create = { id, resultTypes in
+        manager.createImplementation = { resultTypes in
             .run { subscriber in
                 let localSearchCompleter = MKLocalSearchCompleter()
                 let delegate = LocalSearchManagerDelegate(subscriber)
                 localSearchCompleter.resultTypes = resultTypes
                 localSearchCompleter.delegate = delegate
 
-                dependencies[id] = Dependencies(delegate: delegate,
+                dependencies = Dependencies(delegate: delegate,
                                                 localSearchCompleter: localSearchCompleter,
                                                 subscriber: subscriber)
                 return AnyCancellable {
-                    dependencies[id] = nil
+                    dependencies = nil
                 }
             }
         }
         
-        manager.query = { id, fragment in
+        manager.queryImplementation = { fragment in
             .fireAndForget {
-                dependencies[id]?.localSearchCompleter.queryFragment = fragment
+                dependencies?.localSearchCompleter.queryFragment = fragment
             }
         }
         
@@ -50,7 +50,7 @@ private struct Dependencies {
 }
 
 
-private var dependencies: [AnyHashable: Dependencies] = [:]
+private var dependencies: Dependencies?
 
 // MARK: - Delegate
 

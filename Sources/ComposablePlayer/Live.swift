@@ -11,39 +11,39 @@ public extension AudioPlayer {
 
         var manager = AudioPlayer()
 
-        manager.create = { id in
+        manager.createImplementation = {
 
             Effect.run { subscriber in
                 let player = AVPlayer()
 
-                dependencies[id] = Dependencies(
+                dependencies = Dependencies(
                     player: player,
                     subscriber: subscriber,
                     queue: OperationQueue.main
                 )
 
                 return AnyCancellable {
-                    dependencies[id] = nil
+                    dependencies = nil
                 }
             }
         }
 
-        manager.destroy = { id in
+        manager.destroyImplementation = {
             .fireAndForget {
-                dependencies[id]?.subscriber.send(completion: .finished)
-                dependencies[id] = nil
+                dependencies?.subscriber.send(completion: .finished)
+                dependencies = nil
             }
         }
 
-        manager.play = { id, url in
+        manager.playImplementation = { url in
             .fireAndForget {
-                dependencies[id]?.player = AVPlayer(url: url)
-                dependencies[id]?.player.play()
+                dependencies?.player = AVPlayer(url: url)
+                dependencies?.player.play()
             }
         }
 
-        manager.pause = { id in
-            .fireAndForget { dependencies[id]?.player.pause() }
+        manager.pauseImplementation = {
+            .fireAndForget { dependencies?.player.pause() }
         }
 
         return manager
@@ -56,4 +56,4 @@ private struct Dependencies {
     let queue: OperationQueue
 }
 
-private var dependencies: [AnyHashable: Dependencies] = [:]
+private var dependencies: Dependencies?

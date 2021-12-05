@@ -12,7 +12,7 @@
 
             var manager = MediaPlayerManager()
 
-            manager.create = { id in
+            manager.createImplementation = {
 
                 Effect.run { subscriber in
                     let systemMediaPlayer = MPMusicPlayerController.systemMusicPlayer
@@ -29,7 +29,7 @@
                                                    name: .MPMusicPlayerControllerPlaybackStateDidChange,
                                                    object: systemMediaPlayer)
 
-                    dependencies[id] = Dependencies(
+                    dependencies = Dependencies(
                         systemMediaPlayer: systemMediaPlayer,
                         notificationCenter: notificationCenter,
                         delegate: delegate,
@@ -39,16 +39,16 @@
                     systemMediaPlayer.beginGeneratingPlaybackNotifications()
 
                     return AnyCancellable {
-                        dependencies[id] = nil
+                        dependencies = nil
                     }
                 }
             }
 
-            manager.destroy = { id in
+            manager.destroyImplementation = {
                 .fireAndForget {
-                    dependencies[id]?.systemMediaPlayer.endGeneratingPlaybackNotifications()
-                    dependencies[id]?.subscriber.send(completion: .finished)
-                    dependencies[id] = nil
+                    dependencies?.systemMediaPlayer.endGeneratingPlaybackNotifications()
+                    dependencies?.subscriber.send(completion: .finished)
+                    dependencies = nil
                 }
             }
 
@@ -63,7 +63,7 @@
         let subscriber: Effect<MediaPlayerManager.Action, Never>.Subscriber
     }
 
-    private var dependencies: [AnyHashable: Dependencies] = [:]
+    private var dependencies: Dependencies?
 
     private class WatchConnectivityDelegate: NSObject {
         let subscriber: Effect<MediaPlayerManager.Action, Never>.Subscriber

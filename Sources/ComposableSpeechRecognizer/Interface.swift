@@ -12,39 +12,39 @@ public struct SpeechRecognizerManager {
         case authorizationStatus(SFSpeechRecognizerAuthorizationStatus)
     }
 
-    var create: (AnyHashable) -> Effect<Action, Never> = { _ in _unimplemented("create") }
+    var createImplementation: () -> Effect<Action, Never> = { _unimplemented("create") }
 
-    var destroy: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("destroy") }
-
-    @available(macOS, unavailable)
-    var requestAuthorization: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("requestAuthorization") }
+    var destroyImplementation: () -> Effect<Never, Never> = { _unimplemented("destroy") }
 
     @available(macOS, unavailable)
-    var startListening: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("startListening") }
+    var requestAuthorizationImplementation: () -> Effect<Never, Never> = { _unimplemented("requestAuthorization") }
 
     @available(macOS, unavailable)
-    var stopListening: (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("stopListening") }
+    var startListeningImplementation: () -> Effect<Never, Never> = { _unimplemented("startListening") }
 
-    public func create(id: AnyHashable, queue _: DispatchQueue? = nil, options _: [String: Any]? = nil) -> Effect<Action, Never> {
-        create(id)
+    @available(macOS, unavailable)
+    var stopListeningImplementation: () -> Effect<Never, Never> = { _unimplemented("stopListening") }
+
+    public func create(queue _: DispatchQueue? = nil, options _: [String: Any]? = nil) -> Effect<Action, Never> {
+        createImplementation()
     }
 
-    public func destroy(id: AnyHashable) -> Effect<Never, Never> {
-        destroy(id)
-    }
-
-    @available(macOS, unavailable)
-    public func requestAuthorization(id: AnyHashable) -> Effect<Never, Never> {
-        requestAuthorization(id)
+    public func destroy() -> Effect<Never, Never> {
+        destroyImplementation()
     }
 
     @available(macOS, unavailable)
-    public func startListening(id: AnyHashable) -> Effect<Never, Never> {
-        startListening(id)
+    public func requestAuthorization() -> Effect<Never, Never> {
+        requestAuthorizationImplementation()
     }
 
     @available(macOS, unavailable)
-    public func stopListening(id: AnyHashable) -> Effect<Never, Never> {
-        stopListening(id)
+    public func startListening() -> Effect<Never, Never> {
+        startListeningImplementation()
+    }
+
+    @available(macOS, unavailable)
+    public func stopListening() -> Effect<Never, Never> {
+        stopListeningImplementation()
     }
 }

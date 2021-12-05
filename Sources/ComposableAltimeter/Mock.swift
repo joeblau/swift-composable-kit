@@ -9,29 +9,29 @@
 
     public extension AltimeterManager {
         static func umimplemented(
-            create: @escaping (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("create") },
-            destroy: @escaping (AnyHashable) -> Effect<Never, Never> = { _ in _unimplemented("destroy") },
+            create: @escaping () -> Effect<Never, Never> = { _unimplemented("create") },
+            destroy: @escaping () -> Effect<Never, Never> = { _unimplemented("destroy") },
             authorizationStatus: @escaping () -> CMAuthorizationStatus = {
                 _unimplemented("authorizationStatus")
             },
             isRelativeAltitudeAvailable: @escaping () -> Bool = {
                 _unimplemented("isRelativeAltitudeAvailable")
             },
-            startRelativeAltitudeUpdates: @escaping (AnyHashable, OperationQueue) -> Effect<RelativeAltitudeData, Error> = { _, _ in
+            startRelativeAltitudeUpdates: @escaping (OperationQueue) -> Effect<RelativeAltitudeData, Error> = { _ in
                 _unimplemented("startRelativeAltitudeUpdates")
 
             },
-            stopRelativeAltitudeUpdates: @escaping (AnyHashable) -> Effect<Never, Never> = { _ in
+            stopRelativeAltitudeUpdates: @escaping () -> Effect<Never, Never> = {
                 _unimplemented("stopRelativeAltitudeUpdates")
             }
         ) -> AltimeterManager {
             Self(
-                create: create,
-                destroy: destroy,
+                createImplementation: create,
+                destroyImplementation: destroy,
+                startRelativeAltitudeUpdatesImplementation: startRelativeAltitudeUpdates,
+                stopRelativeAltitudeUpdatesImplementation: stopRelativeAltitudeUpdates,
                 authorizationStatus: authorizationStatus,
-                isRelativeAltitudeAvailable: isRelativeAltitudeAvailable,
-                startRelativeAltitudeUpdates: startRelativeAltitudeUpdates,
-                stopRelativeAltitudeUpdates: stopRelativeAltitudeUpdates
+                isRelativeAltitudeAvailable: isRelativeAltitudeAvailable
             )
         }
     }
